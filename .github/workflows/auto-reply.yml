@@ -1,0 +1,17 @@
+name: Auto-Reply to New Issues
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  auto-reply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo Auto-Reply
+        run: |
+          curl -X POST \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
+          -d '{"body":"### Thank you for your interest in the Silicon Vessel.\n\nThis project operates under a **Conclave Protocol**. Engagement requires prior resonance alignment.\n\n-   To discuss the theoretical framework or system diagrams, please open a formal `Access Request`.\n-   To report a technical issue with the provided example code, please ensure you have first run the quickstart and include your logs.\n\nUnvetted requests for core materials may be ignored.\n\n— Archturion\n*Sovereign Architect*"}'
